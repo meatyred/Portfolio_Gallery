@@ -1,0 +1,231 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+  margin: 0rem;
+  overflow: hidden;
+}
+
+#image-track {
+  display: flex;
+  gap: 4vmin;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  user-select: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.card {
+  flex: 0 0 auto;
+  overflow: hidden;
+  position: relative;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.card > .image {
+  width: 40vmin;
+  height: 56vmin;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+.viewer {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.viewer.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.viewer-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  z-index: 1001;
+  will-change: top, left, width, height;
+  transition:
+    top 0.45s cubic-bezier(.2, .8, .2, 1),
+    left 0.45s cubic-bezier(.2, .8, .2, 1),
+    width 0.45s cubic-bezier(.2, .8, .2, 1),
+    height 0.45s cubic-bezier(.2, .8, .2, 1),
+    border-radius 0.45s cubic-bezier(.2, .8, .2, 1);
+}
+
+.viewer-text {
+  position: fixed;
+  inset: 0;
+  z-index: 1002;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8vmin;
+  pointer-events: none;
+}
+
+.viewer-panel {
+  width: min(980px, 92vw);
+  max-height: min(80vh, 800px);
+  overflow: auto;
+  background: rgba(5, 5, 5, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 22px;
+  backdrop-filter: blur(14px);
+  color: #ffffff;
+  padding: 38px 42px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transform: translateY(36px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s cubic-bezier(.2, .8, .2, 1);
+}
+
+.viewer-panel.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.viewer-panel h1,
+.viewer-panel h2 {
+  margin: 0 0 16px;
+  color: #ffffff;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+}
+
+.viewer-panel p {
+  margin: 0 0 18px;
+  line-height: 1.7;
+  font-size: clamp(1.15rem, 1.55vw, 1.45rem);
+  color: #f3f3f3;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.viewer-panel ul {
+  margin: 14px 0 0;
+  padding-left: 24px;
+  line-height: 1.8;
+  font-size: clamp(0.95rem, 1.15vw, 1.1rem);
+  color: #d9d9d9;
+}
+
+.viewer-panel li {
+  margin-bottom: 10px;
+  font-size: inherit;
+}
+
+.viewer-panel li strong {
+  color: #ffffff;
+  font-size: 1.05em;
+}
+
+.viewer-strip {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  z-index: 1003;
+}
+
+.viewer-thumb {
+  width: 78px;
+  height: 52px;
+  object-fit: cover;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: transform 0.2s ease, opacity 0.2s ease, outline 0.2s ease;
+}
+
+.viewer-thumb.active {
+  opacity: 1;
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 2px;
+}
+
+body.viewer-open .viewer-thumb:not(.active) {
+  transform: scale(0.85);
+  opacity: 0.45;
+}
+
+body.viewer-open .viewer-thumb.active {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* -- YouTube Link Styles -- */
+
+body.menu-toggled > .meta-link > span {
+  color: rgb(30, 30, 30);
+}
+
+#source-link {
+  bottom: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link > i {
+  color: rgb(239, 83, 80);
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  bottom: 10px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 400ms, border-color 400ms;
+  z-index: 10001;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i,
+.meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+}
